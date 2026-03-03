@@ -14,6 +14,11 @@ $app = Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         // Faire confiance à tous les proxies (nécessaire pour Codespaces)
         $middleware->trustProxies(at: '*');
+        
+        // Enregistrer le middleware de rôle
+        $middleware->alias([
+            'role' => \App\Http\Middleware\CheckRole::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

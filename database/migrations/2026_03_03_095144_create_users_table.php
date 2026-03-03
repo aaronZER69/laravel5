@@ -11,10 +11,26 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
+        // Si la table n'existe pas, la créer avec les colonnes complètes
+        if (!Schema::hasTable('users')) {
+            Schema::create('users', function (Blueprint $table) {
+                $table->id();
+                $table->string('name');
+                $table->string('email')->unique();
+                $table->timestamp('email_verified_at')->nullable();
+                $table->string('password');
+                $table->string('role')->default('user');
+                $table->rememberToken();
+                $table->timestamps();
+            });
+        } else {
+            // sinon on ajoute juste la colonne role (utile en cas de table existante)
+            if (!Schema::hasColumn('users', 'role')) {
+                Schema::table('users', function (Blueprint $table) {
+                    $table->string('role')->default('user');
+                });
+            }
+        }
     }
 
     /**
