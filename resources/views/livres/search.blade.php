@@ -43,3 +43,24 @@
                 <h3>
                 Résultats pour "{{ $query }}"
                 <span class="badge bg-secondary">{{ $total }}</span>
+                </h3>
+
+                @if($total > 0)
+                    <div class="list-group mt-3">
+                        @foreach($livres as $livre)
+                            <a href="{{ route('livres.show', $livre->id) }}" class="list-group-item list-group-item-action">
+                                <strong>{{ $livre->titre }}</strong>
+                                <div class="small text-muted">{{ $livre->auteur }} @if($livre->categorie) — {{ $livre->categorie->nom }} @endif</div>
+                            </a>
+                        @endforeach
+                    </div>
+                @else
+                    <div class="alert alert-info mt-3">Aucun résultat trouvé.</div>
+                @endif
+
+            </div>
+        </div>
+    </div>
+    @endif
+</div>
+@endsection
