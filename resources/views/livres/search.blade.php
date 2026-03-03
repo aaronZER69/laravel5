@@ -40,6 +40,6 @@
     @if($query)
     <div class="row mb-4">
         <div class="col-12">
-            <h3>
+                <h3>
                 Résultats pour "{{ $query }}"
-                <span class="badge bg-secondary">{{
+                <span class="badge bg-secondary">{{ $total }}</span>
