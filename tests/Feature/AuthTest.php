@@ -67,9 +67,17 @@ class AuthTest extends TestCase
             'role' => 'admin',
         ]);
 
+        // ensure at least one author for the dropdown
+        \App\Models\Auteur::firstOrCreate(['nom' => 'DropdownAuthor']);
+
         // voir la liste vide
         $response = $this->actingAs($admin)->get('/admin/livres');
         $response->assertStatus(200)->assertViewIs('admin.livres.index');
+
+        // création formulaire propose les auteurs existants
+        $response = $this->actingAs($admin)->get('/admin/livres/create');
+        $response->assertStatus(200);
+        $response->assertSee('DropdownAuthor');
 
         // ajouter une catégorie (nécessaire)
         $cat = \App\Models\Categorie::create(['nom' => 'Test', 'slug' => 'test', 'couleur' => '#000', 'icone' => 'fas fa-book']);

@@ -92,6 +92,11 @@ class LivreSeeder extends Seeder
         ];
 
         foreach ($livres as $livre) {
+            // s'assurer qu'un enregistrement auteur existe et remplir auteur_id
+            if (!empty($livre['auteur'])) {
+                $aut = \App\Models\Auteur::firstOrCreate(['nom' => $livre['auteur']]);
+                $livre['auteur_id'] = $aut->id;
+            }
             Livre::create($livre);
         }
     }
