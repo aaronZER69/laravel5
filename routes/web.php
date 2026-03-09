@@ -58,6 +58,20 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin', function () {
         return view('admin.dashboard');
     })->name('admin.dashboard');
+
+    // liste des utilisateurs pour l'administrateur
+    Route::get('/admin/utilisateurs', [\App\Http\Controllers\UserController::class, 'index'])
+        ->name('admin.users.index');
+
+    // gestion des livres pour l'administrateur
+    Route::get('/admin/livres', [\App\Http\Controllers\LivreController::class, 'adminIndex'])
+        ->name('admin.livres.index');
+    Route::get('/admin/livres/create', [\App\Http\Controllers\LivreController::class, 'create'])
+        ->name('admin.livres.create');
+    Route::post('/admin/livres', [\App\Http\Controllers\LivreController::class, 'store'])
+        ->name('admin.livres.store');
+    Route::delete('/admin/livres/{id}', [\App\Http\Controllers\LivreController::class, 'destroy'])
+        ->name('admin.livres.destroy');
 });
 
 // Route de démonstration pour comprendre les paramètres

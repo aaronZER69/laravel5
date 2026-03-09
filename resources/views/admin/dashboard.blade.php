@@ -24,7 +24,7 @@
 
                     <div class="row mt-4">
                         <div class="col-md-4">
-                            <div class="card">
+                            <a href="{{ route('admin.users.index') }}" class="card text-decoration-none text-dark">
                                 <div class="card-body text-center">
                                     <h3>
                                         <i class="fas fa-users" style="color: #0284C7;"></i>
@@ -32,7 +32,19 @@
                                     <h5>Utilisateurs</h5>
                                     <p class="lead">Gérer les utilisateurs</p>
                                 </div>
-                            </div>
+                            </a>
+                        </div>
+
+                        <div class="col-md-4">
+                            <a href="{{ route('admin.livres.index') }}" class="card text-decoration-none text-dark">
+                                <div class="card-body text-center">
+                                    <h3>
+                                        <i class="fas fa-book" style="color: #7C3AED;"></i>
+                                    </h3>
+                                    <h5>Livres</h5>
+                                    <p class="lead">Gérer le catalogue</p>
+                                </div>
+                            </a>
                         </div>
 
                         <div class="col-md-4">

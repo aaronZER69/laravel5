@@ -13,7 +13,8 @@ class Livre extends Model
 
     protected $fillable = [
         'titre',
-        'auteur',
+        'auteur',        // legacy field, will be kept for backward compatibility
+        'auteur_id',     // new foreign key
         'annee',
         'nb_pages',
         'isbn',
@@ -38,12 +39,15 @@ class Livre extends Model
     }
 
     /**
-     * Scope pour rechercher par titre ou auteur
+     * Scope pour rechercher par titre ou auteur (ou nom de l'auteur lié).
      */
     public function scopeRecherche($query, $terme)
     {
         return $query->where('titre', 'like', '%' . $terme . '%')
-            ->orWhere('auteur', 'like', '%' . $terme . '%');
+            ->orWhere('auteur', 'like', '%' . $terme . '%')
+            ->orWhereHas('auteurRel', function ($q) use ($terme) {
+                $q->where('nom', 'like', "%$terme%");
+            });
     }
 
     /**
@@ -52,6 +56,14 @@ class Livre extends Model
     public function categorie()
     {
         return $this->belongsTo(Categorie::class, 'categorie_id');
+    }
+
+    /**
+     * Un livre peut appartenir à un auteur enregistré.
+     */
+    public function auteurRel()
+    {
+        return $this->belongsTo(Auteur::class, 'auteur_id');
     }
 
     /**
