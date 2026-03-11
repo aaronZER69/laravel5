@@ -38,6 +38,7 @@
                     <td>{{ $livre->categorie?->nom }}</td>
                     <td>{{ $livre->annee }}</td>
                     <td>
+                        <a href="{{ route('admin.livres.edit', $livre->id) }}" class="btn btn-sm btn-warning">Modifier</a>
                         <form action="{{ route('admin.livres.destroy', $livre->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Supprimer ce livre ?');">
                             @csrf
                             @method('DELETE')

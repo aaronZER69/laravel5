@@ -134,6 +134,59 @@ class LivreController extends Controller
     }
 
     /**
+     * Affiche le formulaire de modification d'un livre.
+     */
+    public function edit($id)
+    {
+        $livre = Livre::findOrFail($id);
+        $categories = Categorie::all();
+        $auteurs = \App\Models\Auteur::all();
+        return view('admin.livres.edit', compact('livre', 'categories', 'auteurs'));
+    }
+
+    /**
+     * Met à jour un livre.
+     */
+    public function update(Request $request, $id)
+    {
+        $livre = Livre::findOrFail($id);
+
+        $validated = $request->validate([
+            'titre' => 'required|string|max:255',
+            'auteur_id' => 'nullable|exists:auteurs,id',
+            'new_auteur' => 'nullable|string|max:255',
+            'annee' => 'nullable|integer',
+            'nb_pages' => 'nullable|integer',
+            'isbn' => 'nullable|string|max:20',
+            'resume' => 'nullable|string',
+            'disponible' => 'required|boolean',
+            'categorie_id' => 'nullable|exists:categories,id',
+        ]);
+
+        // if new_auteur provided, create author record
+        if (!empty($validated['new_auteur'])) {
+            $auteur = \App\Models\Auteur::firstOrCreate(['nom' => $validated['new_auteur']]);
+            $validated['auteur_id'] = $auteur->id;
+        }
+
+        // fill legacy auteur string so NOT NULL constraint is satisfied
+        if (!empty($validated['auteur_id'])) {
+            $auteur = \App\Models\Auteur::find($validated['auteur_id']);
+            $validated['auteur'] = $auteur?->nom ?? '';
+        }
+
+        // if neither auteur_id nor new_auteur provided, require auteur text
+        if (empty($validated['auteur_id']) && empty($validated['new_auteur'])) {
+            $request->validate(['auteur' => 'required|string|max:255']);
+            $validated['auteur'] = $request->input('auteur');
+        }
+
+        $livre->update($validated);
+
+        return redirect()->route('admin.livres.index')->with('success', 'Livre modifié');
+    }
+
+    /**
      * Supprime un livre du catalogue.
      */
     public function destroy($id)

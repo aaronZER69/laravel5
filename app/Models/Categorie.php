@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Categorie extends Model
 {
@@ -23,6 +24,26 @@ class Categorie extends Model
     protected $casts = [
         'active' => 'boolean'
     ];
+
+    /**
+     * Génère automatiquement le slug lors de la création ou mise à jour du nom
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($categorie) {
+            if (empty($categorie->slug)) {
+                $categorie->slug = Str::slug($categorie->nom);
+            }
+        });
+
+        static::updating(function ($categorie) {
+            if ($categorie->isDirty('nom') && empty($categorie->slug)) {
+                $categorie->slug = Str::slug($categorie->nom);
+            }
+        });
+    }
 
     /**
      * Une catégorie peut avoir plusieurs livres

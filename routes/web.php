@@ -70,8 +70,26 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         ->name('admin.livres.create');
     Route::post('/admin/livres', [\App\Http\Controllers\LivreController::class, 'store'])
         ->name('admin.livres.store');
+    Route::get('/admin/livres/{id}/edit', [\App\Http\Controllers\LivreController::class, 'edit'])
+        ->name('admin.livres.edit');
+    Route::put('/admin/livres/{id}', [\App\Http\Controllers\LivreController::class, 'update'])
+        ->name('admin.livres.update');
     Route::delete('/admin/livres/{id}', [\App\Http\Controllers\LivreController::class, 'destroy'])
         ->name('admin.livres.destroy');
+
+    // gestion des catégories pour l'administrateur
+    Route::get('/admin/categories', [\App\Http\Controllers\CategorieController::class, 'adminIndex'])
+        ->name('admin.categories.index');
+    Route::get('/admin/categories/create', [\App\Http\Controllers\CategorieController::class, 'create'])
+        ->name('admin.categories.create');
+    Route::post('/admin/categories', [\App\Http\Controllers\CategorieController::class, 'store'])
+        ->name('admin.categories.store');
+    Route::get('/admin/categories/{id}/edit', [\App\Http\Controllers\CategorieController::class, 'edit'])
+        ->name('admin.categories.edit');
+    Route::put('/admin/categories/{id}', [\App\Http\Controllers\CategorieController::class, 'update'])
+        ->name('admin.categories.update');
+    Route::delete('/admin/categories/{id}', [\App\Http\Controllers\CategorieController::class, 'destroy'])
+        ->name('admin.categories.destroy');
 });
 
 // Route de démonstration pour comprendre les paramètres

@@ -48,19 +48,7 @@
                         </div>
 
                         <div class="col-md-4">
-                            <div class="card">
-                                <div class="card-body text-center">
-                                    <h3>
-                                        <i class="fas fa-book" style="color: #7C3AED;"></i>
-                                    </h3>
-                                    <h5>Livres</h5>
-                                    <p class="lead">Gérer le catalogue</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div class="card">
+                            <a href="{{ route('admin.categories.index') }}" class="card text-decoration-none text-dark">
                                 <div class="card-body text-center">
                                     <h3>
                                         <i class="fas fa-list" style="color: #F59E0B;"></i>
@@ -68,7 +56,7 @@
                                     <h5>Catégories</h5>
                                     <p class="lead">Gérer les catégories</p>
                                 </div>
-                            </div>
+                            </a>
                         </div>
                     </div>
 
